@@ -88,10 +88,14 @@ class MainViewController < UIViewController
       end
     end
     if filterIsCurrentlyApplied
-      self.removeFilter(@availableFilters[indexPath.row])
+      Dispatch::Queue.concurrent.async do
+        self.removeFilter(@availableFilters[indexPath.row])
+      end
       tableView.cellForRowAtIndexPath(indexPath).accessoryType = UITableViewCellAccessoryNone
     else
-      self.addFilter(@availableFilters[indexPath.row])
+      Dispatch::Queue.concurrent.async do
+        self.addFilter(@availableFilters[indexPath.row])
+      end
       tableView.cellForRowAtIndexPath(indexPath).accessoryType = UITableViewCellAccessoryCheckmark
     end
   end

@@ -3,21 +3,25 @@ class FilteredImageView < UIView
 
   def reloadData
     return unless @inputImage
-    @filteredImage = CIImage.alloc.initWithCGImage(@inputImage.CGImage, options:nil)
-
-    filters = self.datasource.filtersToApply
-    if filters
-      filters.each do |filter|
-        filter.setValue(@filteredImage, forKey: "inputImage")
-        begin
-          @filteredImage = filter.outputImage
-        rescue StandardError => e
-          puts "Error apply filter: #{@filteredImage}"
+    
+    Dispatch::Queue.concurrent.async do
+      @filteredImage = CIImage.alloc.initWithCGImage(@inputImage.CGImage, options:nil)
+      filters = self.datasource.filtersToApply
+      if filters
+        filters.each do |filter|
+          filter.setValue(@filteredImage, forKey: "inputImage")
+          begin
+            @filteredImage = filter.outputImage
+          rescue StandardError => e
+            puts "Error apply filter: #{@filteredImage}"
+          end
         end
       end
+
+      Dispatch::Queue.main.sync do
+        self.setNeedsDisplay      
+      end
     end
-    
-    self.setNeedsDisplay
   end
   
   def drawRect(rect)
