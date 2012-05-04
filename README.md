@@ -1,6 +1,6 @@
 # PocketCoreImage in RubyMotion
 
-A reimplement of PocketCoreImage sample from Apple using RubyMotion
+A reimplementation of PocketCoreImage sample from Apple using RubyMotion
 
 ## Credit
 
