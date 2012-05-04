@@ -12,7 +12,7 @@ class MainViewController < UIViewController
     
     @imageView = FilteredImageView.alloc.init
     @imageView.datasource = self
-    @imageView.inputImage = UIImage.imageNamed("LakeDonPedro2.jpg")
+    @imageView.inputImage = UIImage.imageNamed("mountain.jpg")
     @imageView.frame = [[10, 54], [300, 158]]
     self.view.addSubview @imageView
 
