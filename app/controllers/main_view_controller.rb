@@ -22,9 +22,16 @@ class MainViewController < UIViewController
     @tableView.delegate = self
     @tableView.dataSource = self
     self.view.addSubview @tableView
+    
+    @navBar = UINavigationBar.alloc.initWithFrame [[0,0], [320, 44]]
+    item = UINavigationItem.alloc.init
+    item.title = "Filtered Image"
+    item.rightBarButtonItem = UIBarButtonItem.alloc.initWithTitle("Clear", style:UIBarButtonItemStylePlain, target:self, action: :"clearFilters:")
+    @navBar.setItems([item], animated: false)
+    self.view.addSubview @navBar
   end
   
-  ## 
+  ## Actions
   
   def clearFilters(sender)
     @filtersToApply.clear
@@ -48,7 +55,7 @@ class MainViewController < UIViewController
     @imageView.reloadData
   end
   
-  ## Table View
+  ## Table View Datasource / Delegate
   
   def numberOfSectionsInTableView(tableView)
     1
